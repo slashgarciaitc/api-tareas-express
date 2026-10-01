@@ -1,0 +1,23 @@
+$ curl -s -X POST http://localhost:3001/api/tareas -H "Content-Type: application/json" -d '{"titulo":"Probar la base de datos","prioridad":"baja"}'
+{"id":4,"titulo":"Probar la base de datos","prioridad":"baja","completada":false}
+
+$ curl -s -X PATCH http://localhost:3001/api/tareas/1/completar
+{"id":1,"titulo":"Estudiar Express","prioridad":"alta","completada":true}
+
+$ # reinicio del servidor (Ctrl+C y npm start)
+
+$ curl -s http://localhost:3001/api/tareas
+[{"id":1,"titulo":"Estudiar Express","prioridad":"alta","completada":true},{"id":2,"titulo":"Preparar la exposición","prioridad":"alta","completada":true},{"id":3,"titulo":"Subir la práctica a GitHub","prioridad":"media","completada":false},{"id":4,"titulo":"Probar la base de datos","prioridad":"baja","completada":false}]
+
+$ curl -s http://localhost:3001/api/tareas/resumen
+{"total":4,"completadas":2,"pendientes":2}
+
+$ sqlite3 -header -column data/tareas.db 'SELECT * FROM tareas;'
+id  titulo                      prioridad  completada
+--  --------------------------  ---------  ----------
+1   Estudiar Express            alta       1         
+2   Preparar la exposición      alta       1         
+3   Subir la práctica a GitHub  media      0         
+4   Probar la base de datos     baja       0         
+
+

@@ -1,0 +1,14 @@
+
+> api-tareas-express@1.0.0 start
+> node src/server.js
+
+Servidor escuchando en http://localhost:3001
+POST /api/tareas -> 201 (7 ms)
+PATCH /api/tareas/1/completar -> 200 (2 ms)
+
+> api-tareas-express@1.0.0 start
+> node src/server.js
+
+Servidor escuchando en http://localhost:3001
+GET /api/tareas -> 200 (6 ms)
+GET /api/tareas/resumen -> 200 (1 ms)

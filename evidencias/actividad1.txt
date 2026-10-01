@@ -1,0 +1,18 @@
+$ curl -si http://localhost:3001/api
+HTTP/1.1 200 OK
+X-Powered-By: Express
+X-Equipo: Saul Garcia Hernandez
+Content-Type: application/json; charset=utf-8
+Content-Length: 123
+ETag: W/"7b-fgRKmu+4Gjtg5vIpZ0CLicL+w3U"
+Date: Thu, 01 Oct 2026 04:23:08 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"nombre":"API de tareas con Express","rutas":["/api/tareas","/api/tareas/resumen","/api/tareas/buscar","/api/tareas/:id"]}
+
+$ curl -si http://localhost:3001/api/tareas/99 | grep -E '^(HTTP|X-Equipo)'
+HTTP/1.1 404 Not Found
+X-Equipo: Saul Garcia Hernandez
+
+

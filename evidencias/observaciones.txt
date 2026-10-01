@@ -1,0 +1,11 @@
+# PUT sin prioridad. Versión en memoria (paso 9 de la guía):
+$ curl -s -X PUT $API/1 -H "Content-Type: application/json" -d '{"titulo":"Sin prioridad"}'
+{"id":1,"titulo":"Sin prioridad","completada":false}
+
+# La misma petición con el modelo en SQLite (Actividad 3):
+$ curl -s -X PUT $API/1 -H "Content-Type: application/json" -d '{"titulo":"Sin prioridad"}'
+{"id":1,"titulo":"Sin prioridad","prioridad":"alta","completada":false}
+
+# Actividad 2 con /buscar declarada DESPUÉS de /:id:
+$ curl -s "$API/buscar?texto=express"
+{"error":"El id \"buscar\" no es un número válido"}

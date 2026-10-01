@@ -1,0 +1,27 @@
+
+> api-tareas-express@1.0.0 start
+> node src/server.js
+
+Servidor escuchando en http://localhost:3001
+GET /api -> 200 (6 ms)
+GET /inicio -> 302 (2 ms)
+GET /api/tareas -> 200 (1 ms)
+GET /api/tareas?completada=false -> 200 (0 ms)
+GET /api/tareas?prioridad=alta -> 200 (1 ms)
+GET /api/tareas?completada=false&prioridad=alta -> 200 (0 ms)
+GET /api/tareas/resumen -> 200 (1 ms)
+GET /api/tareas/2 -> 200 (0 ms)
+POST /api/tareas -> 201 (4 ms)
+PUT /api/tareas/4 -> 200 (1 ms)
+PATCH /api/tareas/4/completar -> 200 (0 ms)
+DELETE /api/tareas/4 -> 401 (0 ms)
+DELETE /api/tareas/4 -> 403 (0 ms)
+DELETE /api/tareas/4 -> 204 (0 ms)
+GET /api/tareas/99 -> 404 (0 ms)
+GET /api/tareas/abc -> 400 (0 ms)
+POST /api/tareas -> 400 (1 ms)
+POST /api/tareas -> 400 (1 ms)
+POST /api/tareas -> 400 (1 ms)
+GET /otra-ruta -> 404 (1 ms)
+Error interno: Error de prueba lanzado a propósito
+GET /api/error -> 500 (0 ms)

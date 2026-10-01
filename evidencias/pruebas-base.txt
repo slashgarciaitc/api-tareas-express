@@ -1,0 +1,189 @@
+## 17.1
+$ curl -s http://localhost:3001/api
+{"nombre":"API de tareas con Express","rutas":["/api/tareas","/api/tareas/resumen","/api/tareas/:id"]}
+
+$ curl -si http://localhost:3001/inicio
+HTTP/1.1 302 Found
+X-Powered-By: Express
+Location: /
+Vary: Accept
+Content-Type: text/plain; charset=utf-8
+Content-Length: 23
+Date: Thu, 01 Oct 2026 04:22:14 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+Found. Redirecting to /
+
+## 17.2
+$ curl -si $API
+HTTP/1.1 200 OK
+X-Powered-By: Express
+X-Total-Count: 3
+Content-Type: application/json; charset=utf-8
+Content-Length: 244
+ETag: W/"f4-jerJcnf++Z00HmCpy8LNJ14bddc"
+Date: Thu, 01 Oct 2026 04:22:14 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+[{"id":1,"titulo":"Estudiar Express","prioridad":"alta","completada":false},{"id":2,"titulo":"Preparar la exposición","prioridad":"alta","completada":true},{"id":3,"titulo":"Subir la práctica a GitHub","prioridad":"media","completada":false}]
+
+## 17.3
+$ curl -s "$API?completada=false"
+[{"id":1,"titulo":"Estudiar Express","prioridad":"alta","completada":false},{"id":3,"titulo":"Subir la práctica a GitHub","prioridad":"media","completada":false}]
+
+$ curl -s "$API?prioridad=alta"
+[{"id":1,"titulo":"Estudiar Express","prioridad":"alta","completada":false},{"id":2,"titulo":"Preparar la exposición","prioridad":"alta","completada":true}]
+
+$ curl -s "$API?completada=false&prioridad=alta"
+[{"id":1,"titulo":"Estudiar Express","prioridad":"alta","completada":false}]
+
+## 17.4
+$ curl -s $API/resumen
+{"total":3,"completadas":1,"pendientes":2}
+
+## 17.5
+$ curl -s $API/2
+{"id":2,"titulo":"Preparar la exposición","prioridad":"alta","completada":true}
+
+## 17.6
+$ curl -si -X POST $API -H "Content-Type: application/json" -d '{"titulo":"Repasar middlewares","prioridad":"alta"}'
+HTTP/1.1 201 Created
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 77
+ETag: W/"4d-w2cesAwZh9JA9+mNF+yRPQnNuCM"
+Date: Thu, 01 Oct 2026 04:22:14 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"id":4,"titulo":"Repasar middlewares","prioridad":"alta","completada":false}
+
+## 17.7
+$ curl -s -X PUT $API/4 -H "Content-Type: application/json" -d '{"titulo":"Repasar middlewares y rutas","prioridad":"media","completada":false}'
+{"id":4,"titulo":"Repasar middlewares y rutas","prioridad":"media","completada":false}
+
+## 17.8
+$ curl -s -X PATCH $API/4/completar
+{"id":4,"titulo":"Repasar middlewares y rutas","prioridad":"media","completada":true}
+
+## 17.9
+$ curl -si -X DELETE $API/4
+HTTP/1.1 401 Unauthorized
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 41
+ETag: W/"29-ZkUTTJEkQTy2CkpE6bjFFDVqvvs"
+Date: Thu, 01 Oct 2026 04:22:14 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"error":"Falta el encabezado x-api-key"}
+
+$ curl -si -X DELETE $API/4 -H "x-api-key: 12345"
+HTTP/1.1 403 Forbidden
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 36
+ETag: W/"24-dpG5ye/kSzoSsfhifxEw6NHZufc"
+Date: Thu, 01 Oct 2026 04:22:14 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"error":"La API key no es válida"}
+
+$ curl -si -X DELETE $API/4 -H "x-api-key: express2026"
+HTTP/1.1 204 No Content
+X-Powered-By: Express
+Date: Thu, 01 Oct 2026 04:22:14 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+
+## 17.10
+$ curl -si $API/99
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 40
+ETag: W/"28-oA9ImnaD/JMb4ub+qkjZskz4b+g"
+Date: Thu, 01 Oct 2026 04:22:14 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"error":"No existe la tarea con id 99"}
+
+$ curl -si $API/abc
+HTTP/1.1 400 Bad Request
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 50
+ETag: W/"32-8QoA+O2XTj5Iivl0RuNcUhWBaEM"
+Date: Thu, 01 Oct 2026 04:22:14 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"error":"El id \"abc\" no es un número válido"}
+
+$ curl -si -X POST $API -H "Content-Type: application/json" -d '{"prioridad":"alta"}'
+HTTP/1.1 400 Bad Request
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 59
+ETag: W/"3b-QvrvF017OlZH8McY/17JNNmU7KE"
+Date: Thu, 01 Oct 2026 04:22:14 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"error":"El campo titulo es obligatorio y debe ser texto"}
+
+$ curl -si -X POST $API -H "Content-Type: application/json" -d '{"titulo":"Prueba","prioridad":"urgente"}'
+HTTP/1.1 400 Bad Request
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 49
+ETag: W/"31-yRcBuUladaxGj0lv3/sW4zoDZCA"
+Date: Thu, 01 Oct 2026 04:22:14 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"error":"prioridad debe ser: baja, media, alta"}
+
+$ curl -si -X POST $API -H "Content-Type: application/json" -d '{"titulo":'
+HTTP/1.1 400 Bad Request
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 40
+ETag: W/"28-8Mh9urrjhJY2+XCogAuPmH12Z64"
+Date: Thu, 01 Oct 2026 04:22:14 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"error":"Unexpected end of JSON input"}
+
+$ curl -si http://localhost:3001/otra-ruta
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 44
+ETag: W/"2c-rrjeTSmV8j6cFwili4f9x71fTb8"
+Date: Thu, 01 Oct 2026 04:22:14 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"error":"La ruta GET /otra-ruta no existe"}
+
+$ curl -si http://localhost:3001/api/error
+HTTP/1.1 500 Internal Server Error
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 38
+ETag: W/"26-TPHq3SznkB5cu6Yb1UG+2oZzErE"
+Date: Thu, 01 Oct 2026 04:22:14 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"error":"Error interno del servidor"}
+
